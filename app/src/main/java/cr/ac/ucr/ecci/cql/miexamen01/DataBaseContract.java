@@ -43,7 +43,7 @@ public class DataBaseContract {
     private static final String REAL_TYPE = " REAL";
     private static final String COMMA_SEP = ",";
 
-    // Creacion de tablas Persona, Estudiante, Funcionario
+    // Creacion de tablas
 
     public static final String SQL_CREATE_TABLETOP = "CREATE TABLE " + DataBaseEntry.TABLE_NAME_TABLETOP + " (" + DataBaseEntry.COLUMN_NAME_ID + TEXT_TYPE + "PRIMARY KEY," +
             DataBaseEntry.COLUMN_NAME_NAME + TEXT_TYPE + COMMA_SEP + DataBaseEntry.COLUMN_NAME_YEAR + TEXT_TYPE + COMMA_SEP +  DataBaseEntry.COLUMN_NAME_PUBLISHER + TEXT_TYPE +
@@ -52,6 +52,5 @@ public class DataBaseContract {
             COMMA_SEP + DataBaseEntry.COLUMN_NAME_AGES + TEXT_TYPE  + COMMA_SEP + DataBaseEntry.COLUMN_NAME_PLAYING_TIME + TEXT_TYPE + " )";
 
     public static final String SQL_DELETE_TABLETOP = "DROP TABLE IF EXISTS " + DataBaseEntry.TABLE_NAME_TABLETOP;
-
 
 }

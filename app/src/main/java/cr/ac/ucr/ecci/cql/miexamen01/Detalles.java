@@ -9,16 +9,15 @@ import android.os.Parcelable;
 
 public class Detalles extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles);
 
+        //Recibe el objeto TableTop
         Intent intent = getIntent();
-        TableTop tSeleccionado = intent.getParcelableExtra("tabletop");
+        TableTop tSeleccionado =  intent.getParcelableExtra("tabletop");
 
-        System.out.println("Objeto Tabletop recibido. Nombre:" + tSeleccionado);
     }
 }
