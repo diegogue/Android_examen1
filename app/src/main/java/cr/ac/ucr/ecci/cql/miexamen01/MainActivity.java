@@ -1,15 +1,23 @@
 package cr.ac.ucr.ecci.cql.miexamen01;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
 
-public class MainActivity extends AppCompatActivity {
+
+public class MainActivity extends AppCompatActivity implements Parcelable {
+    public MainActivity() {
+    }
 
     // Esto queda mas elegante pasando los objetos a partir de las clases
     // Considerar para la refactorización
@@ -17,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     String[] itemname = new String[5];
     String[] itemdescription = new String[5];
+    TableTop[] TableList = new TableTop[5];
     /* String[] itemdescription ={
             "Picture yourself in the era of discoveries:\n" +
                     "after a long voyage of great deprivation,\n" +
@@ -59,6 +68,23 @@ public class MainActivity extends AppCompatActivity {
             R.drawable.hanabi,
     };
 
+    protected MainActivity(Parcel in) {
+        itemname = in.createStringArray();
+        itemdescription = in.createStringArray();
+    }
+
+    public static final Creator<MainActivity> CREATOR = new Creator<MainActivity>() {
+        @Override
+        public MainActivity createFromParcel(Parcel in) {
+            return new MainActivity(in);
+        }
+
+        @Override
+        public MainActivity[] newArray(int size) {
+            return new MainActivity[size];
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,10 +101,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                mostrarDetalles(TableList[0]);
 
-                // TODO Auto-generated method stub
-                //  String Selecteditem = itemname[position];
-                //  Toast.makeText(getApplicationContext(), Selecteditem, Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -98,11 +122,11 @@ public class MainActivity extends AppCompatActivity {
 
         country = new TableTop("TT002","Monopoly", "1935", "Hasbro", "United States", (float)41.883736, (float)-71.352259,
                 "The thrill of bankrupting an opponent, but it" +
-                "pays to play nice, because fortunes could" +
-                "change with the roll of the dice. Experience" +
-                "the ups and downs by collecting property" +
-                "colors sets to build houses, and maybe even" +
-                "upgrading to a hotel!",
+                        "pays to play nice, because fortunes could" +
+                        "change with the roll of the dice. Experience" +
+                        "the ups and downs by collecting property" +
+                        "colors sets to build houses, and maybe even" +
+                        "upgrading to a hotel!",
                 "2-8", "8+", "20-180 minutes");
         // inserta el estudiante, se le pasa como parametro el contexto de la app
         newRowId =  country.insertar(getApplicationContext());
@@ -133,10 +157,10 @@ public class MainActivity extends AppCompatActivity {
 
         country = new TableTop("TT005","Hanabi", "2010", "Asmodee", "France", (float)48.761629, (float)2.065296,
                 "Hanabi—named for the Japanese word for" +
-        "fireworks—is a cooperative game in which" +
-        "players try to create the perfect fireworks" +
-        "show by placing the cards on the table in the" +
-        "right order.",
+                        "fireworks—is a cooperative game in which" +
+                        "players try to create the perfect fireworks" +
+                        "show by placing the cards on the table in the" +
+                        "right order.",
                 "2-5", "8+", "25 minutes");
 
         // inserta el estudiante, se le pasa como parametro el contexto de la app
@@ -151,29 +175,53 @@ public class MainActivity extends AppCompatActivity {
         TableTop tableTop = new TableTop();
         // leer el estudiante, se le pasa como parametro el contexto de la app y ls identificacion
         tableTop.leer(getApplicationContext(), "TT001");
+        TableList[0] = tableTop;
         itemname[0]=tableTop.getName();
         itemdescription[0]= tableTop.getDescription();
         System.out.println(tableTop.getDescription());
 
         tableTop = new TableTop();
         tableTop.leer(getApplicationContext(), "TT002");
+        TableList[1] = tableTop;
         itemname[1]=tableTop.getName();
         itemdescription[1]= tableTop.getDescription();
 
         tableTop = new TableTop();
         tableTop.leer(getApplicationContext(), "TT003");
+        TableList[2] = tableTop;
         itemname[2]=tableTop.getName();
         itemdescription[2]= tableTop.getDescription();
 
         tableTop = new TableTop();
         tableTop.leer(getApplicationContext(), "TT004");
+        TableList[3] = tableTop;
         itemname[3]=tableTop.getName();
         itemdescription[3]= tableTop.getDescription();
 
         tableTop = new TableTop();
         tableTop.leer(getApplicationContext(), "TT005");
+        TableList[4] = tableTop;
         itemname[4]=tableTop.getName();
         itemdescription[4]= tableTop.getDescription();
     }
 
+    public void mostrarDetalles(TableTop t){
+        // Intent para llamar a la Actividad Detalles
+        Intent intent = new Intent(this, Detalles.class);
+        intent.putExtra("tabletop",  t);
+        startActivity(intent);
+
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeStringArray(itemname);
+        dest.writeStringArray(itemdescription);
+        dest.writeTypedArray(TableList, flags);
+    }
 }
